@@ -13,7 +13,8 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
-    @photo = Photo.find(params[:id])
+    @album = Album.find(params[:album_id])
+    @photo = @album.photos.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -59,11 +60,12 @@ class PhotosController < ApplicationController
   # PUT /photos/1
   # PUT /photos/1.json
   def update
-    @photo = Photo.find(params[:id])
+    @album = Album.find(params[:album_id])
+    @photo = @album.photos.find(params[:id])
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
+        format.html { redirect_to @album, notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -75,11 +77,12 @@ class PhotosController < ApplicationController
   # DELETE /photos/1
   # DELETE /photos/1.json
   def destroy
-    @photo = Photo.find(params[:id])
+    @album = Album.find(params[:album_id])
+    @photo = @album.photos.find(params[:id])
     @photo.destroy
 
     respond_to do |format|
-      format.html { redirect_to photos_url }
+      format.html { redirect_to @album }
       format.json { head :no_content }
     end
   end
